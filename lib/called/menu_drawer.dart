@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/page/user_page.dart';
+import 'package:flutter_application_2/called/user_page.dart';
 
-class NavigationDrawerWidget extends StatelessWidget {
+class MenuDrawer extends StatelessWidget {
   final padding = const EdgeInsets.symmetric(horizontal: 20);
+
+  const MenuDrawer({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     const name = 'Ilham Sadixov';
