@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../pages/about_us_page.dart';
+import '../pages/my_profile_page.dart';
+import '../pages/settings_page.dart';
+
 class PopUpMenu extends StatelessWidget {
   final List<PopupMenuEntry> menuList;
   final Widget? icon;
@@ -8,6 +12,26 @@ class PopUpMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
+      onSelected: (result) {
+        if (result == 0) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MyProfile()),
+          );
+        }
+        if (result == 1) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Settings()),
+          );
+        }
+        if (result == 2) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AboutUs()),
+          );
+        }
+      },
       offset: Offset(0.0, appBarHeight),
       shape: const RoundedRectangleBorder(
         // borderRadius: BorderRadius.circular(16.0),

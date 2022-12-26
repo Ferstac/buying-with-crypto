@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 
-class Grid extends StatefulWidget {
-  const Grid({Key? key}) : super(key: key);
+class GridProducts extends StatefulWidget {
+  const GridProducts({Key? key}) : super(key: key);
 
   @override
-  State<Grid> createState() => _GridState();
+  State<GridProducts> createState() => _GridProductsState();
 }
 
-class _GridState extends State<Grid> {
+class _GridProductsState extends State<GridProducts> {
   final List<Map<String, dynamic>> gridMap = [
     {
       "title": "white sneaker with adidas logo",

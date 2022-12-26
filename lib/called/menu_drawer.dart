@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/called/user_page.dart';
+
+import '../pages/all_stores_page.dart';
+import '../pages/cryptocurrency_tracker_page.dart';
+import '../pages/discount_shop_page.dart';
+import 'user_page.dart';
+
 
 class MenuDrawer extends StatelessWidget {
   final padding = const EdgeInsets.symmetric(horizontal: 20);
@@ -37,19 +42,19 @@ class MenuDrawer extends StatelessWidget {
                   buildMenuItem(
                     text: 'Cryptocurrency Tracker',
                     icon: Icons.currency_bitcoin_sharp,
-                    // onClicked: () => selectedItem(context, 0),
+                    onClicked: () => selectedItem(context, 0),
                   ),
                   const SizedBox(height: 16),
                   buildMenuItem(
-                    text: 'All stores',
+                    text: 'All Stores',
                     icon: Icons.audiotrack,
-                    // onClicked: () => selectedItem(context, 1),
+                    onClicked: () => selectedItem(context, 1),
                   ),
                   const SizedBox(height: 16),
                   buildMenuItem(
-                    text: 'Discount shop',
+                    text: 'Discount Shop',
                     icon: Icons.flip_camera_android_sharp,
-                    // onClicked: () => selectedItem(context, 2),
+                    onClicked: () => selectedItem(context, 2),
                   ),
                 ],
               ),
@@ -107,5 +112,27 @@ class MenuDrawer extends StatelessWidget {
       hoverColor: hoverColor,
       onTap: onClicked,
     );
+  }
+
+  void selectedItem(BuildContext context, int index) {
+    Navigator.of(context).pop();
+
+    switch (index) {
+      case 0:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const CryptocurrencyTracker(),
+        ));
+        break;
+      case 1:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const AllStores(),
+        ));
+        break;
+      case 2:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const DiscountShop(),
+        ));
+        break;
+    }
   }
 }

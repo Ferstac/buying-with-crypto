@@ -6,6 +6,10 @@ import 'package:flutter/rendering.dart';
 import '../called/grid_products.dart';
 import '../called/pop_up_menu.dart';
 import '../called/menu_drawer.dart';
+import 'cart_page.dart';
+import 'favorites_page.dart';
+import 'live_support_page.dart';
+import 'notifications_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -104,13 +108,16 @@ class _MainPageState extends State<MainPage> {
                       ),
                       title: Text("My Profile"),
                     ),
+                    value: 0,
                   ),
                   PopupMenuDivider(),
                   PopupMenuItem(
                     child: Text("Settings"),
+                    value: 1,
                   ),
                   PopupMenuItem(
                     child: Text("About Us"),
+                    value: 2,
                   ),
                   PopupMenuDivider(),
                   PopupMenuItem(
@@ -120,6 +127,7 @@ class _MainPageState extends State<MainPage> {
                       ),
                       title: Text("Log Out"),
                     ),
+                    value: 3,
                   ),
                 ],
                 icon: CircleAvatar(
@@ -139,12 +147,13 @@ class _MainPageState extends State<MainPage> {
               width: double.infinity,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color.fromARGB(255, 255, 255, 255),
-                      Color.fromARGB(255, 190, 252, 4),
-                    ]),
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color.fromARGB(255, 255, 255, 255),
+                    Color.fromARGB(255, 190, 252, 4),
+                  ],
+                ),
               ),
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -216,17 +225,13 @@ class _MainPageState extends State<MainPage> {
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(
-                                        right: 8,
-                                        left: 8,
-                                        top: 24,
-                                        bottom: 12),
+                                        right: 8, left: 8, top: 24, bottom: 12),
                                     child: Image.network(
                                       imgs[pagaPosition],
                                       fit: BoxFit.fill,
                                     ),
                                     decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(24.0),
+                                      borderRadius: BorderRadius.circular(24.0),
                                       // color: Colors.amberAccent,
                                     ),
                                   ),
@@ -259,7 +264,7 @@ class _MainPageState extends State<MainPage> {
                         ),
                         const Padding(
                           padding: EdgeInsets.all(24.0),
-                          child: Grid(),
+                          child: GridProducts(),
                         ),
                       ],
                     ),
@@ -273,9 +278,14 @@ class _MainPageState extends State<MainPage> {
             ? FloatingActionButtonLocation.centerDocked
             : FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LiveSupport()),
+            );
+          },
           child: const Icon(
-            Icons.add,
+            Icons.mark_unread_chat_alt_outlined,
           ),
         ),
         bottomNavigationBar: AnimatedContainer(
@@ -287,13 +297,23 @@ class _MainPageState extends State<MainPage> {
               children: [
                 IconButton(
                   // onPressed: () => selectedItem(context, 5),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainPage()),
+                    );
+                  },
                   icon: const Icon(
                     Icons.home_outlined,
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Favorites()),
+                    );
+                  },
                   icon: const Icon(
                     CupertinoIcons.heart,
                   ),
@@ -302,13 +322,23 @@ class _MainPageState extends State<MainPage> {
                   width: 50,
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Cart()),
+                    );
+                  },
                   icon: const Icon(
                     CupertinoIcons.cart,
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Notifications()),
+                    );
+                  },
                   icon: const Icon(
                     CupertinoIcons.bell,
                   ),
