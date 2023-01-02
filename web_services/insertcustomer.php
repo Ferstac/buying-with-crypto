@@ -3,28 +3,21 @@
 include("connection.php");
 
     if($_GET) {
-        $username = $_POST["username"];
-        $password = $_POST["password"];
-        $taxScore = $_POST["taxScore"];
-        $userStatus = $_POST["userStatus"];
-        $totalMoney = $_POST["totalMoney"];
+        $firstName = $_GET["firstName"];
+        $firstName = $_GET["lastName"];
+        $username = $_GET["username"];
+        $password = $_GET["password"];
+        $mail = $_GET["mail"];
+        $addressId = $_GET["addressId"];
+        $orderId = $_GET["orderId"];
     }
 
-
-
-    $_username = mysqli_real_escape_string($connection, $username);
-    $_password = md5($password);
-    $_taxScore = mysqli_real_escape_string($connection, $taxScore);
-    $_userStatus = mysqli_real_escape_string($connection, $userStatus);
-    $_totalMoney = mysqli_real_escape_string($connection, $totalMoney);
-
-
-    $insertUserQuery = "INSERT INTO `users` (`username`, `password`, `taxScore`, `userStatus`, `totalMoney`) VALUES ('$_username', '$_password', '$_taxScore', '$_userStatus', '$_totalMoney')";
-    $result = mysqli_query($connection, $insertUserQuery);
+    $insertCustomerQuery = "INSERT INTO `customers` (`firstName`, `lastName`, `username`, `password`, `mail`, `addressId`, `orderId`) VALUES ('$firstName', '$lastName', '$username', '$pasword', '$mail', '$addressId', '$orderId')";
+    $result = mysqli_query($connection, $insertCustomerQuery);
 
     if($result) {
 
-        echo "user saved successfuly";
+        echo "customer saved successfuly";
 
     } else {
         echo "error";
