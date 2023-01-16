@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../pages/about_us_page.dart';
 import '../pages/my_profile_page.dart';
 import '../pages/settings_page.dart';
+import '../pages/sign_up_page.dart';
 
 class PopUpMenu extends StatelessWidget {
   final List<PopupMenuEntry> menuList;
@@ -16,7 +17,7 @@ class PopUpMenu extends StatelessWidget {
         if (result == 0) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => MyProfile()),
+            MaterialPageRoute(builder: (context) => SignUp()),
           );
         }
         if (result == 1) {
