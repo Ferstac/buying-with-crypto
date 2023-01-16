@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../pages/all_stores_page.dart';
-import '../pages/cryptocurrency_tracker_page.dart';
+import '../pages/crypto_money_list_page.dart';
 import '../pages/discount_shop_page.dart';
 import 'user_page.dart';
 
@@ -120,7 +120,7 @@ class MenuDrawer extends StatelessWidget {
     switch (index) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const CryptocurrencyTracker(),
+          builder: (context) => const CryptoMoneyList(),
         ));
         break;
       case 1:
