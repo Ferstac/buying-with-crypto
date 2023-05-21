@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_2/called/post_json.dart';
 import 'package:getwidget/getwidget.dart';
 
+import '../called/moving_splash.dart';
+import 'main_page.dart';
+
 // import '../datetime_picker.dart';
 
 class SignUp extends StatefulWidget {
@@ -336,6 +339,14 @@ class _SignUpState extends State<SignUp> {
                                   focusPasswordController.text,
                                   focusEmailController.text,
                                 );
+                                if (createPost != "error") {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            SimpleAnimation()),
+                                  );
+                                }
                               },
                             ),
                           )

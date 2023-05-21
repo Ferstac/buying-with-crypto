@@ -32,6 +32,7 @@ dependencies:
   faker: ^2.0.0
   font_awesome_flutter: ^10.3.0
   getwidget: ^3.0.1
+  rive: ^0.10.3
 
 dev_dependencies:
   flutter_test:
