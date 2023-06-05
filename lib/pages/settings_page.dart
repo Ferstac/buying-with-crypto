@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'address_settings_page.dart';
+import 'login_information_settings_page.dart';
+import 'payment_system_settings_page.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -22,7 +25,7 @@ class _SettingsState extends State<Settings> {
               fontSize: 20.0),
         ),
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.amber.shade400,
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -43,14 +46,15 @@ class _SettingsState extends State<Settings> {
                     children: <Widget>[
                       Center(
                         child: Container(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.only(top: 10.0),
                           child: Container(
                             margin:
-                                const EdgeInsets.only(top: 20.0, bottom: 10.0),
+                                const EdgeInsets.only(top: 10.0, bottom: 10.0),
                             decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(5),
-                                  bottomLeft: Radius.circular(5)),
+                                topLeft: Radius.circular(5),
+                                bottomLeft: Radius.circular(5),
+                              ),
                             ),
                             child: MaterialButton(
                               color: Colors.white,
@@ -60,16 +64,114 @@ class _SettingsState extends State<Settings> {
                                   const Color.fromARGB(255, 237, 196, 196),
                               child: const Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 85.0),
+                                  vertical: 10.0,
+                                  horizontal: 85.0,
+                                ),
                                 child: Text(
                                   "address settings:",
                                   style: TextStyle(
-                                      fontFamily: "SignikaSemiBold",
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontSize: 22.0),
+                                    fontFamily: "SignikaSemiBold",
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontSize: 22.0,
+                                  ),
                                 ),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AddressSettings(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Container(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Container(
+                            margin:
+                                const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(5),
+                                bottomLeft: Radius.circular(5),
+                              ),
+                            ),
+                            child: MaterialButton(
+                              color: Colors.white,
+                              highlightColor:
+                                  const Color.fromARGB(0, 248, 0, 0),
+                              splashColor:
+                                  const Color.fromARGB(255, 237, 196, 196),
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 10.0,
+                                  horizontal: 40.0,
+                                ),
+                                child: Text(
+                                  "login information settings:",
+                                  style: TextStyle(
+                                    fontFamily: "SignikaSemiBold",
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontSize: 22.0,
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginInformationSettings(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Container(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Container(
+                            margin:
+                                const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(5),
+                                bottomLeft: Radius.circular(5),
+                              ),
+                            ),
+                            child: MaterialButton(
+                              color: Colors.white,
+                              highlightColor:
+                                  const Color.fromARGB(0, 248, 0, 0),
+                              splashColor:
+                                  const Color.fromARGB(255, 237, 196, 196),
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 10.0,
+                                  horizontal: 40.0,
+                                ),
+                                child: Text(
+                                  "payment system settings:",
+                                  style: TextStyle(
+                                    fontFamily: "SignikaSemiBold",
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontSize: 22.0,
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PaymentSystemSettings(),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ),
