@@ -58,8 +58,8 @@ class _LoginInformationSettingsState extends State<LoginInformationSettings> {
                                   ),
                                   width: 280,
                                   padding: const EdgeInsets.symmetric(
-                                    vertical: 10.0,
-                                    horizontal: 5.0,
+                                    vertical: 5.0,
+                                    horizontal: 10.0,
                                   ),
                                   child: const Text(
                                     "username: ...........",
@@ -111,11 +111,11 @@ class _LoginInformationSettingsState extends State<LoginInformationSettings> {
                                   ),
                                   width: 280,
                                   padding: const EdgeInsets.symmetric(
-                                    vertical: 10.0,
-                                    horizontal: 5.0,
+                                    vertical: 5.0,
+                                    horizontal: 10.0,
                                   ),
                                   child: const Text(
-                                    "@mail address: ..@example.com",
+                                    "@mail address: ..@temp.com",
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontFamily: "SignikaSemiBold",
@@ -164,8 +164,8 @@ class _LoginInformationSettingsState extends State<LoginInformationSettings> {
                                   ),
                                   width: 280,
                                   padding: const EdgeInsets.symmetric(
-                                    vertical: 10.0,
-                                    horizontal: 5.0,
+                                    vertical: 5.0,
+                                    horizontal: 10.0,
                                   ),
                                   child: const Text(
                                     "password: ..................",

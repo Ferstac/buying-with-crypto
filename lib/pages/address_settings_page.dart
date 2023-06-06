@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AddressSettings extends StatefulWidget {
@@ -43,39 +44,133 @@ class _AddressSettingsState extends State<AddressSettings> {
                     children: <Widget>[
                       Center(
                         child: Container(
-                          padding: const EdgeInsets.only(top: 20.0),
+                          padding: const EdgeInsets.only(top: 10.0),
                           child: Container(
                             margin:
-                                const EdgeInsets.only(top: 20.0, bottom: 10.0),
+                                const EdgeInsets.only(top: 10.0, bottom: 10.0),
                             decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(5),
                                 bottomLeft: Radius.circular(5),
                               ),
                             ),
-                            child: MaterialButton(
-                              color: Colors.white,
-                              highlightColor:
-                                  const Color.fromARGB(0, 248, 0, 0),
-                              splashColor:
-                                  const Color.fromARGB(255, 237, 196, 196),
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 10.0,
-                                  horizontal: 85.0,
-                                ),
-                                child: Text(
-                                  "address settings:",
-                                  style: TextStyle(
-                                    fontFamily: "SignikaSemiBold",
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontSize: 22.0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    CupertinoIcons.add,
+                                    size: 34,
                                   ),
                                 ),
-                              ),
-                              onPressed: () {},
+                              ],
                             ),
                           ),
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            16.0,
+                          ),
+                          color: Colors.white,
+                        ),
+                        width: 380,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5.0,
+                          horizontal: 10.0,
+                        ),
+                        child: Column(
+                          children: const <Widget>[
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "First Name/Last Name: ............",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: "SignikaSemiBold",
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "City/Locality: ..........",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: "SignikaSemiBold",
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "State/Province: ............",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: "SignikaSemiBold",
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Postal Code: ............",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: "SignikaSemiBold",
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Country: Turkey",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: "SignikaSemiBold",
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Telephone number: +90 550 000 00 00",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: "SignikaSemiBold",
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
