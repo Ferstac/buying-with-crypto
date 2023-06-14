@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'top_up_cryptocurrency_account_settings_page.dart';
+
 class PaymentSystemSettings extends StatefulWidget {
   const PaymentSystemSettings({Key? key}) : super(key: key);
 
@@ -100,7 +102,14 @@ class _PaymentSystemSettingsState extends State<PaymentSystemSettings> {
                                   fontSize: 18.0,
                                 ),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => TopUpCryptocurrencyAccountSettings(),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ),

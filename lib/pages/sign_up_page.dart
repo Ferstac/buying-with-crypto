@@ -2,10 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/called/post_json.dart';
-import 'package:getwidget/getwidget.dart';
-
 import '../called/moving_splash.dart';
-import 'main_page.dart';
 
 // import '../datetime_picker.dart';
 

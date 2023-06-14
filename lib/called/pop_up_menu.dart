@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../pages/about_us_page.dart';
-import '../pages/my_profile_page.dart';
 import '../pages/settings_page.dart';
 import '../pages/sign_up_page.dart';
 

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 
@@ -26,7 +25,6 @@ Future createPost(String firstName, String lastName, String username,
     },
     // encoding: Encoding.getByName('utf-8'),
   );
-  print(response.body);
 
   if (response.body != "error") {
     // If the server did return a 201 CREATED response,
