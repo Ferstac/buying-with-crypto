@@ -1,8 +1,6 @@
-// ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/called/post_json.dart';
-import '../called/moving_splash.dart';
+import 'post_json.dart';
+import 'moving_splash.dart';
 
 // import '../datetime_picker.dart';
 

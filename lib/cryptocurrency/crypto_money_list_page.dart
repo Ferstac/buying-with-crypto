@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../called/cc_data.dart';
+import 'cc_data.dart';
 
 class CryptoMoneyList extends StatefulWidget {
   const CryptoMoneyList({Key? key}) : super(key: key);

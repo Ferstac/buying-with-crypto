@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../pages/all_stores_page.dart';
-import '../pages/crypto_money_list_page.dart';
+import '../cryptocurrency/crypto_money_list_page.dart';
 import '../pages/discount_shop_page.dart';
 import 'user_page.dart';
 
