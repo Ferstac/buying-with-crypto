@@ -30,7 +30,7 @@ class _MainPageState extends State<MainPage> {
   final ScrollController _scrollController = ScrollController();
   int pageNo = 0;
 
-  Timer? carasouelTmer;
+  Timer? carouselTimer;
 
   Timer getTimer() {
     return Timer.periodic(const Duration(seconds: 3), (timer) {
@@ -49,16 +49,15 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     pageController = PageController(initialPage: 0, viewportFraction: 0.85);
-    carasouelTmer = getTimer();
+    carouselTimer = getTimer();
     _scrollController.addListener(() {
       if (_scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
-        showBtmAppBr = false;
-        setState(() {});
+        showBottomAppBar = false;
       } else {
-        showBtmAppBr = true;
-        setState(() {});
+        showBottomAppBar = true;
       }
+      setState(() {});
     });
     super.initState();
   }
@@ -69,16 +68,14 @@ class _MainPageState extends State<MainPage> {
     super.dispose();
   }
 
-  bool showBtmAppBr = true;
+  bool showBottomAppBar = true;
 
   @override
   Widget build(BuildContext context) => Scaffold(
         drawer: const MenuDrawer(),
         appBar: AppBar(
           title: SizedBox(
-            // height: 5.0,
             child: ListTile(
-              // onTap: () {},
               selected: true,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.horizontal(
@@ -97,7 +94,7 @@ class _MainPageState extends State<MainPage> {
               ),
               subtitle: Text(
                 "Welcome to shop",
-                style: Theme.of(context).textTheme.subtitle2,
+                style: Theme.of(context).textTheme.titleSmall,
               ),
               trailing: PopUpMenu(
                 menuList: const [
@@ -141,49 +138,43 @@ class _MainPageState extends State<MainPage> {
           ),
         ),
         body: SafeArea(
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            child: Container(
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color.fromARGB(255, 255, 255, 255),
-                    Color.fromARGB(255, 190, 252, 4),
-                  ],
-                ),
+          child: Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color.fromARGB(255, 255, 255, 255),
+                  Color.fromARGB(255, 190, 252, 4),
+                ],
               ),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 45.0,
-                  bottom: 20.0,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 50.0,
-                      child: Card(
-                        child: Padding(
-                          padding: EdgeInsets.only(),
-                          child: Center(
-                            child: Text(
-                              "Place for advertising",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w900,
-                              ),
-                            ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 50.0,
+                  child: Card(
+                    child: Padding(
+                      padding: EdgeInsets.only(),
+                      child: Center(
+                        child: Text(
+                          "Place for advertising",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w900,
                           ),
                         ),
                       ),
                     ),
-                    Column(
+                  ),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+                    child: Column(
                       children: [
                         SizedBox(
                           height: 200,
@@ -193,7 +184,7 @@ class _MainPageState extends State<MainPage> {
                               pageNo = index;
                               setState(() {});
                             },
-                            itemBuilder: (context, pagaPosition) {
+                            itemBuilder: (context, pageIndex) {
                               return AnimatedBuilder(
                                 animation: pageController,
                                 builder: (ctx, child) {
@@ -203,7 +194,7 @@ class _MainPageState extends State<MainPage> {
                                   onTap: () => Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) => Image.network(
-                                        imgs[pagaPosition],
+                                        imgs[pageIndex],
                                         fit: BoxFit.fill,
                                       ),
                                     ),
@@ -217,17 +208,21 @@ class _MainPageState extends State<MainPage> {
                                   //   );
                                   // },
                                   onPanDown: (d) {
-                                    carasouelTmer?.cancel();
-                                    carasouelTmer = null;
+                                    carouselTimer?.cancel();
+                                    carouselTimer = null;
                                   },
                                   onPanCancel: () {
-                                    carasouelTmer = getTimer();
+                                    carouselTimer = getTimer();
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(
-                                        right: 8, left: 8, top: 24, bottom: 12),
+                                      right: 8,
+                                      left: 8,
+                                      top: 24,
+                                      bottom: 12,
+                                    ),
                                     child: Image.network(
-                                      imgs[pagaPosition],
+                                      imgs[pageIndex],
                                       fit: BoxFit.fill,
                                     ),
                                     decoration: BoxDecoration(
@@ -268,13 +263,13 @@ class _MainPageState extends State<MainPage> {
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),
-        floatingActionButtonLocation: showBtmAppBr
+        floatingActionButtonLocation: showBottomAppBar
             ? FloatingActionButtonLocation.centerDocked
             : FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
@@ -346,11 +341,9 @@ class _MainPageState extends State<MainPage> {
               ],
             ),
           ),
-          duration: const Duration(
-            milliseconds: 800,
-          ),
+          duration: const Duration(milliseconds: 800),
           curve: Curves.easeInOutQuint,
-          height: showBtmAppBr ? 70 : 0,
+          height: showBottomAppBar ? 70 : 0,
         ),
       );
 }

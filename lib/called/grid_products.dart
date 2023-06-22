@@ -78,48 +78,6 @@ class _GridProductsState extends State<GridProducts>
     },
   ];
 
-  bool isProductDetailVisible = false;
-  late Map<String, dynamic> selectedProduct = {};
-
-  late AnimationController _animationController;
-  late Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    _animation = CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    );
-  }
-
-  void openProductDetail(Map<String, dynamic> product) {
-    setState(() {
-      isProductDetailVisible = true;
-      selectedProduct = product;
-      _animationController.forward();
-    });
-  }
-
-  void closeProductDetail() {
-    _animationController.reverse().then((value) {
-      setState(() {
-        isProductDetailVisible = false;
-        selectedProduct = {};
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -137,7 +95,69 @@ class _GridProductsState extends State<GridProducts>
           itemBuilder: (_, index) {
             return GestureDetector(
               onTap: () {
-                openProductDetail(gridMap[index]);
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Dialog(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(16.0),
+                              child: Image.network(
+                                "${gridMap.elementAt(index)['images']}",
+                                height: 200,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${gridMap.elementAt(index)['title']}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                  const SizedBox(height: 8.0),
+                                  Text(
+                                    "${gridMap.elementAt(index)['price']}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                  const SizedBox(height: 8.0),
+                                  Text(
+                                    "${gridMap.elementAt(index)['description']}",
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 16.0),
+                            Center(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  // Ekleme işlemini burada gerçekleştirin
+                                },
+                                child: const Text("Sepete Ekle"),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -214,111 +234,6 @@ class _GridProductsState extends State<GridProducts>
             );
           },
         ),
-        if (isProductDetailVisible)
-          GestureDetector(
-            onTap: closeProductDetail,
-            child: FadeTransition(
-              opacity: _animation,
-              child: Container(
-                color: Colors.black.withOpacity(0.5),
-                child: Center(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            IconButton(
-                              onPressed: closeProductDetail,
-                              icon: const Icon(
-                                Icons.close,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                  child: Image.network(
-                                    "${selectedProduct['images']}",
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                const SizedBox(height: 16.0),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
-                                  child: Text(
-                                    "${selectedProduct['title']}",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium!
-                                        .merge(
-                                          const TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                  ),
-                                ),
-                                const SizedBox(height: 8.0),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
-                                  child: Text(
-                                    "${selectedProduct['price']}",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleSmall!
-                                        .merge(
-                                          TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                  ),
-                                ),
-                                const SizedBox(height: 8.0),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
-                                  child: Text(
-                                    "${selectedProduct['description']}",
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 16.0),
-                                Center(
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      // Ekleme işlemini burada gerçekleştirin
-                                    },
-                                    child: const Text("Sepete Ekle"),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
       ],
     );
   }
