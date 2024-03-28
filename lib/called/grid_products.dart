@@ -1,5 +1,55 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../cryptocurrency/cc_data.dart';
+import '../requests/crypto_api.dart';
+
+class CurrencyProvider extends ChangeNotifier {
+  String selectedCurrency = 'USD';
+  double? BTCPrice;
+  double? ETHPrice; // Burada price değişkenini double türünde tanımlayın
+  double? USDTPrice;
+  double? BNBPrice;
+  void updateCurrency(String newCurrency) {
+    selectedCurrency = newCurrency;
+    notifyListeners();
+  }
+
+  void updatePrice(double newBTCPrice, double newETHPrice ,
+      double newBNBPrice) {
+    BTCPrice = newBTCPrice; // Price değişkenini güncelleyin
+    ETHPrice = newETHPrice;
+    USDTPrice = 1.0;
+    BNBPrice = newBNBPrice;
+    // conversionRates'ı güncellemek için bir işlevi burada çağırın
+    updateConversionRates(BTCPrice, ETHPrice, BNBPrice);
+
+    notifyListeners();
+  }
+}
+
+Map<String, double> conversionRates = {
+  "USD": 1.0,
+  "BNB": 0.0,
+  "BTC": 0.0, // Varsayılan değeri 0.0 olarak ayarladım
+  "ETH": 0.0,
+};
+
+// conversionRates'ı güncellemek için bir işlev
+void updateConversionRates(BTCPrice, ETHPrice, BNBPrice) {
+  conversionRates = {
+    "USD": 1.0,
+    "BNB": BNBPrice,
+    "BTC": BTCPrice,
+    "ETH": ETHPrice,
+  };
+}
+
+double calculateConvertedPrice(double originalPrice, String selectedCurrency) {
+  double? conversionRate = conversionRates[selectedCurrency];
+  return originalPrice / conversionRate!;
+}
 
 class GridProducts extends StatefulWidget {
   const GridProducts({Key? key}) : super(key: key);
@@ -127,14 +177,33 @@ class _GridProductsState extends State<GridProducts>
                                         ),
                                   ),
                                   const SizedBox(height: 8.0),
-                                  Text(
-                                    "${gridMap.elementAt(index)['price']}",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium!
-                                        .copyWith(
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "${calculateConvertedPrice(double.parse(gridMap.elementAt(index)['price'].substring(1)), Provider.of<CurrencyProvider>(context).selectedCurrency)} ${Provider.of<CurrencyProvider>(context).selectedCurrency}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium!
+                                            .copyWith(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                      const SizedBox(width: 8.0),
+                                      DropdownButton<String>(
+                                        value: Provider.of<CurrencyProvider>(
+                                                context)
+                                            .selectedCurrency,
+                                        items: ["USD","BTC", "ETH", "BNB"]
+                                            .map((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(value),
+                                          );
+                                        }).toList(),
+                                        onChanged: (String? newValue) =>
+                                            _loadCC(newValue),
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(height: 8.0),
                                   Text(
@@ -197,7 +266,7 @@ class _GridProductsState extends State<GridProducts>
                             height: 8.0,
                           ),
                           Text(
-                            "${gridMap.elementAt(index)['price']}",
+                            "${calculateConvertedPrice(double.parse(gridMap.elementAt(index)['price'].substring(1)), Provider.of<CurrencyProvider>(context).selectedCurrency).toStringAsFixed(2)} ${Provider.of<CurrencyProvider>(context).selectedCurrency}",
                             style:
                                 Theme.of(context).textTheme.titleSmall!.merge(
                                       TextStyle(
@@ -205,9 +274,6 @@ class _GridProductsState extends State<GridProducts>
                                         color: Colors.grey.shade500,
                                       ),
                                     ),
-                          ),
-                          const SizedBox(
-                            height: 8.0,
                           ),
                           Row(
                             children: [
@@ -223,6 +289,20 @@ class _GridProductsState extends State<GridProducts>
                                   CupertinoIcons.cart,
                                 ),
                               ),
+                              DropdownButton<String>(
+                                value: Provider.of<CurrencyProvider>(context)
+                                    .selectedCurrency,
+                                items: ["USD","BTC", "ETH", "BNB"]
+                                    .map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (String? newValue) =>
+                                    _loadCC(newValue),
+                                iconSize: 14,
+                              ),
                             ],
                           ),
                         ],
@@ -236,5 +316,23 @@ class _GridProductsState extends State<GridProducts>
         ),
       ],
     );
+  }
+
+  final CryptoApiService _cryptoApiService = CryptoApiService(
+      '100&CMC_PRO_API_KEY=3b3beb6a-eabc-4a52-b0c3-db55ebad0f55');
+  _loadCC(newValue) async {
+    Provider.of<CurrencyProvider>(context, listen: false)
+        .updateCurrency(newValue!);
+    try {
+      List<CCData> ccDataList =
+          await _cryptoApiService.fetchCryptocurrencyData();
+      setState(() {
+        Provider.of<CurrencyProvider>(context, listen: false).updatePrice(
+            ccDataList[0].price, ccDataList[1].price, ccDataList[3].price);
+      });
+    } catch (e) {
+      // Handle errors
+      print('Error: $e');
+    }
   }
 }

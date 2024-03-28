@@ -8,7 +8,7 @@ class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
   @override
-  _SignUpState createState() {
+  State<SignUp> createState() {
     return _SignUpState();
   }
 }
@@ -19,12 +19,28 @@ class _SignUpState extends State<SignUp> {
   final FocusNode focusEmail = FocusNode();
   final FocusNode focusPassword = FocusNode();
   final FocusNode focusUsername = FocusNode();
+  final FocusNode focusCityName = FocusNode();
+  final FocusNode focusDistrict = FocusNode();
+  final FocusNode focusNeighbourhood = FocusNode();
+  final FocusNode focusStreet = FocusNode();
+  final FocusNode focusposCode = FocusNode();
+  final FocusNode focusNumberOfHome = FocusNode();
+  final FocusNode focusAddress = FocusNode();
 
   final TextEditingController focusNameController = TextEditingController();
   final TextEditingController focusLastNameController = TextEditingController();
   final TextEditingController focusUsernameController = TextEditingController();
   final TextEditingController focusPasswordController = TextEditingController();
   final TextEditingController focusEmailController = TextEditingController();
+  final TextEditingController focusCityNameController = TextEditingController();
+  final TextEditingController focusDistrictController = TextEditingController();
+  final TextEditingController focusNeighbourhoodController =
+      TextEditingController();
+  final TextEditingController focusStreetController = TextEditingController();
+  final TextEditingController focusposCodeController = TextEditingController();
+  final TextEditingController focusNumberOfHomeController =
+      TextEditingController();
+  final TextEditingController focusAddressController = TextEditingController();
 
   var dropList = ["male", "female", "other"];
 
@@ -301,6 +317,293 @@ class _SignUpState extends State<SignUp> {
                                       fontSize: 18.0)),
                             ),
                           ),
+                          Row(
+                            children: const [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(left: 24.0, bottom: 4.0),
+                                child: Text(
+                                  "Write your city name, please",
+                                  style: TextStyle(
+                                      fontFamily: "SignikaSemiBold",
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 18.0),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10.0,
+                                bottom: 15.0,
+                                left: 22.0,
+                                right: 22.0),
+                            child: TextField(
+                              focusNode: focusCityName,
+                              controller: focusCityNameController,
+                              keyboardType: TextInputType.streetAddress,
+                              style: const TextStyle(
+                                  fontFamily: "SignikaSemiBold",
+                                  fontSize: 16.0,
+                                  color: Colors.black),
+                              decoration: const InputDecoration(
+                                  labelText: "Enter the city name",
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
+                                  ),
+                                  hintText: "Enter the city name",
+                                  hintStyle: TextStyle(
+                                      fontFamily: "SignikaSemiBold",
+                                      fontSize: 18.0)),
+                            ),
+                          ),
+                          Row(
+                            children: const [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(left: 24.0, bottom: 4.0),
+                                child: Text(
+                                  "Write your district, please",
+                                  style: TextStyle(
+                                      fontFamily: "SignikaSemiBold",
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 18.0),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10.0,
+                                bottom: 15.0,
+                                left: 22.0,
+                                right: 22.0),
+                            child: TextField(
+                              focusNode: focusDistrict,
+                              controller: focusDistrictController,
+                              keyboardType: TextInputType.streetAddress,
+                              style: const TextStyle(
+                                  fontFamily: "SignikaSemiBold",
+                                  fontSize: 16.0,
+                                  color: Colors.black),
+                              decoration: const InputDecoration(
+                                  labelText: "Enter the district",
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
+                                  ),
+                                  hintText: "Enter the district",
+                                  hintStyle: TextStyle(
+                                      fontFamily: "SignikaSemiBold",
+                                      fontSize: 18.0)),
+                            ),
+                          ),
+                          Row(
+                            children: const [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(left: 24.0, bottom: 4.0),
+                                child: Text(
+                                  "Write your neighbourhood, please",
+                                  style: TextStyle(
+                                      fontFamily: "SignikaSemiBold",
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 18.0),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10.0,
+                                bottom: 15.0,
+                                left: 22.0,
+                                right: 22.0),
+                            child: TextField(
+                              focusNode: focusNeighbourhood,
+                              controller: focusNeighbourhoodController,
+                              keyboardType: TextInputType.streetAddress,
+                              style: const TextStyle(
+                                  fontFamily: "SignikaSemiBold",
+                                  fontSize: 16.0,
+                                  color: Colors.black),
+                              decoration: const InputDecoration(
+                                  labelText: "Enter the neighbourhood",
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
+                                  ),
+                                  hintText: "Enter the neighbourhood",
+                                  hintStyle: TextStyle(
+                                      fontFamily: "SignikaSemiBold",
+                                      fontSize: 18.0)),
+                            ),
+                          ),
+                          Row(
+                            children: const [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(left: 24.0, bottom: 4.0),
+                                child: Text(
+                                  "Write your street, please",
+                                  style: TextStyle(
+                                      fontFamily: "SignikaSemiBold",
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 18.0),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10.0,
+                                bottom: 15.0,
+                                left: 22.0,
+                                right: 22.0),
+                            child: TextField(
+                              focusNode: focusStreet,
+                              controller: focusStreetController,
+                              keyboardType: TextInputType.streetAddress,
+                              style: const TextStyle(
+                                  fontFamily: "SignikaSemiBold",
+                                  fontSize: 16.0,
+                                  color: Colors.black),
+                              decoration: const InputDecoration(
+                                  labelText: "Enter the street",
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
+                                  ),
+                                  hintText: "Enter the street",
+                                  hintStyle: TextStyle(
+                                      fontFamily: "SignikaSemiBold",
+                                      fontSize: 18.0)),
+                            ),
+                          ),
+                          Row(
+                            children: const [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(left: 24.0, bottom: 4.0),
+                                child: Text(
+                                  "Write your posCode, please",
+                                  style: TextStyle(
+                                      fontFamily: "SignikaSemiBold",
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 18.0),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10.0,
+                                bottom: 15.0,
+                                left: 22.0,
+                                right: 22.0),
+                            child: TextField(
+                              focusNode: focusposCode,
+                              controller: focusposCodeController,
+                              keyboardType: TextInputType.number,
+                              style: const TextStyle(
+                                  fontFamily: "SignikaSemiBold",
+                                  fontSize: 16.0,
+                                  color: Colors.black),
+                              decoration: const InputDecoration(
+                                  labelText: "Enter the posCode",
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
+                                  ),
+                                  hintText: "Enter the posCode",
+                                  hintStyle: TextStyle(
+                                      fontFamily: "SignikaSemiBold",
+                                      fontSize: 18.0)),
+                            ),
+                          ),
+                          Row(
+                            children: const [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(left: 24.0, bottom: 4.0),
+                                child: Text(
+                                  "Write your numberOfHome, please",
+                                  style: TextStyle(
+                                      fontFamily: "SignikaSemiBold",
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 18.0),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10.0,
+                                bottom: 15.0,
+                                left: 22.0,
+                                right: 22.0),
+                            child: TextField(
+                              focusNode: focusNumberOfHome,
+                              controller: focusNumberOfHomeController,
+                              keyboardType: TextInputType.streetAddress,
+                              style: const TextStyle(
+                                  fontFamily: "SignikaSemiBold",
+                                  fontSize: 16.0,
+                                  color: Colors.black),
+                              decoration: const InputDecoration(
+                                  labelText: "Enter the numberOfHome",
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
+                                  ),
+                                  hintText: "Enter the numberOfHome",
+                                  hintStyle: TextStyle(
+                                      fontFamily: "SignikaSemiBold",
+                                      fontSize: 18.0)),
+                            ),
+                          ),
+                          Row(
+                            children: const [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(left: 24.0, bottom: 4.0),
+                                child: Text(
+                                  "Write your address, please",
+                                  style: TextStyle(
+                                      fontFamily: "SignikaSemiBold",
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 18.0),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10.0,
+                                bottom: 15.0,
+                                left: 22.0,
+                                right: 22.0),
+                            child: TextField(
+                              focusNode: focusAddress,
+                              controller: focusAddressController,
+                              keyboardType: TextInputType.streetAddress,
+                              style: const TextStyle(
+                                  fontFamily: "SignikaSemiBold",
+                                  fontSize: 16.0,
+                                  color: Colors.black),
+                              decoration: const InputDecoration(
+                                  labelText: "Enter the address",
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
+                                  ),
+                                  hintText: "Enter the address",
+                                  hintStyle: TextStyle(
+                                      fontFamily: "SignikaSemiBold",
+                                      fontSize: 18.0)),
+                            ),
+                          ),
                           Container(
                             margin:
                                 const EdgeInsets.only(top: 20.0, bottom: 10.0),
@@ -327,21 +630,27 @@ class _SignUpState extends State<SignUp> {
                                 ),
                               ),
                               onPressed: () {
-                                createPost(
+                                insertCustomert(
                                   focusNameController.text,
                                   focusLastNameController.text,
                                   focusUsernameController.text,
                                   focusPasswordController.text,
                                   focusEmailController.text,
+                                  focusCityNameController.text,
+                                  focusDistrictController.text,
+                                  focusNeighbourhoodController.text,
+                                  focusStreetController.text,
+                                  focusposCodeController.text,
+                                  focusNumberOfHomeController.text,
+                                  focusAddressController.text,
                                 );
-                                if (createPost != "error") {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            SimpleAnimation()),
-                                  );
-                                }
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SimpleAnimation(),
+                                  ),
+                                );
                               },
                             ),
                           )

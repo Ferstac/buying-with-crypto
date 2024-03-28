@@ -15,14 +15,8 @@
 
             $customer = array();
 
-            $customer["customerId"] = $row["customerId"];
-            $customer["firstName"] = $row["firstName"];
-            $customer["lastName"] = $row["lastName"];
-            $customer["userName"] = $row["userName"];
             $customer["password"] = $row["password"];
             $customer["mail"] = $row["mail"];
-            $customer["addressId"] = $row["addressId"];
-            $customer["orderId"] = $row["orderId"];
 
             array_push($response["customers"], $customer);
         }

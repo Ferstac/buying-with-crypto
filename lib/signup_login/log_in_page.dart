@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../called/data_factory.dart';
+import '../called/pop_up_menu.dart';
+import 'moving_splash.dart';
+import 'post_json.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);
 
   @override
-  _LogInState createState() {
+  State<LogIn> createState() {
     return _LogInState();
   }
 }
@@ -17,6 +24,8 @@ class _LogInState extends State<LogIn> {
   final TextEditingController focusPasswordController = TextEditingController();
 
   get child => null;
+
+  List<Customer> customers = [];
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +167,41 @@ class _LogInState extends State<LogIn> {
                                       fontSize: 22.0),
                                 ),
                               ),
-                              onPressed: () {},
+                              onPressed: () async {
+                                try {
+                                  List<Customer> customers = await getCustomers(
+                                    focusPasswordController.text,
+                                    focusEmailController.text,
+                                  );
+
+                                  bool isAuthenticated = isUserAuthenticated(
+                                    customers,
+                                    focusEmailController.text,
+                                    focusPasswordController.text,
+                                  );
+
+                                  if (isAuthenticated) {
+                                    // Kullanıcı girişi başarılı, SharedPreferences kullanarak bilgileri sakla
+                                    saveUserData(customers);
+                                    Provider.of<UserState>(context, listen: false).setLoggedIn(true);
+                                    // Diğer işlemleri gerçekleştir, örneğin bir ana sayfaya yönlendirme
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SimpleAnimation(),
+                                      ),
+                                    );
+
+                                    print("Giriş başarili!");
+                                  } else {
+                                    // Kullanıcı girişi başarısız, hata mesajını ekrana yazdır
+                                    print("Giriş başarisiz!");
+                                  }
+                                } catch (e) {
+                                  // Bir hata oluştuğunda hatayı ekrana yazdır
+                                  print('Hata: $e');
+                                }
+                              },
                             ),
                           )
                         ],
@@ -172,5 +215,21 @@ class _LogInState extends State<LogIn> {
         ),
       ),
     );
+  }
+
+  bool isUserAuthenticated(
+      List<Customer> customers, String mail, String password) {
+    return customers.any(
+        (customer) => customer.mail == mail && customer.password == password);
+  }
+
+  void saveUserData(List<Customer> customers) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (customers.isNotEmpty) {
+      Customer user = customers.first;
+      prefs.setString('userMail', user.mail);
+      prefs.setString('userPassword', user.password);
+    }
   }
 }

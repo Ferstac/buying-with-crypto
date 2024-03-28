@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../called/data_factory.dart';
+
 class LoginInformationSettings extends StatefulWidget {
   const LoginInformationSettings({Key? key}) : super(key: key);
 
   @override
-  _LoginInformationSettingsState createState() {
+  State<StatefulWidget> createState() {
     return _LoginInformationSettingsState();
   }
 }
@@ -38,20 +40,33 @@ class _LoginInformationSettingsState extends State<LoginInformationSettings> {
     super.dispose();
   }
 
-  Future<void> loadUserInformation() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      usernameController.text = prefs.getString('username') ?? '';
-      emailController.text = prefs.getString('email') ?? '';
-      passwordController.text = prefs.getString('password') ?? '';
-    });
-  }
+Future<void> loadUserInformation() async {
+  final prefs = await SharedPreferences.getInstance();
+  setState(() {
+    usernameController.text = prefs.getString('username') ?? '';
+    emailController.text = prefs.getString('email') ?? '';
+
+    // Use saveUserData to get userMail and userPassword
+    List<Customer> customers = [
+      Customer(
+        mail: prefs.getString('userMail') ?? '',
+        password: prefs.getString('userPassword') ?? '',
+      )
+    ];
+
+    if (customers.isNotEmpty) {
+      Customer user = customers.first;
+      emailController.text = user.mail;
+      passwordController.text = user.password;
+    }
+  });
+}
 
   Future<void> saveUserInformation() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', usernameController.text);
-    await prefs.setString('email', emailController.text);
-    await prefs.setString('password', passwordController.text);
+    await prefs.setString('userMail', emailController.text);
+    await prefs.setString('userPassword', passwordController.text);
   }
 
   void toggleUsernameEdit() {

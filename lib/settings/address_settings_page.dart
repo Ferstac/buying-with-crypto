@@ -13,11 +13,14 @@ class _AddressSettingsState extends State<AddressSettings> {
   List<String> addresses = [];
 
   TextEditingController firstNameController = TextEditingController();
-  TextEditingController cityController = TextEditingController();
-  TextEditingController stateController = TextEditingController();
-  TextEditingController postalCodeController = TextEditingController();
-  TextEditingController countryController = TextEditingController();
-  TextEditingController telephoneController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController cityNameController = TextEditingController();
+  TextEditingController districtController = TextEditingController();
+  TextEditingController neighbourhoodController = TextEditingController();
+  TextEditingController streetController = TextEditingController();
+  TextEditingController posCodeController = TextEditingController();
+  TextEditingController numberOfHomeController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
 
   @override
   void initState() {
@@ -28,18 +31,42 @@ class _AddressSettingsState extends State<AddressSettings> {
   @override
   void dispose() {
     firstNameController.dispose();
-    cityController.dispose();
-    stateController.dispose();
-    postalCodeController.dispose();
-    countryController.dispose();
-    telephoneController.dispose();
+    lastNameController.dispose();
+    cityNameController.dispose();
+    districtController.dispose();
+    neighbourhoodController.dispose();
+    streetController.dispose();
+    posCodeController.dispose();
+    numberOfHomeController.dispose();
+    addressController.dispose();
     super.dispose();
   }
 
   Future<void> loadAddresses() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String firstName = prefs.getString('firstName') ?? '';
+    String lastName = prefs.getString('lastName') ?? '';
+    String username = prefs.getString('username') ?? '';
+    String district = prefs.getString('district') ?? '';
+    String neighbourhood = prefs.getString('neighbourhood') ?? '';
+    String street = prefs.getString('street') ?? '';
+    String posCode = prefs.getString('posCode') ?? '';
+    String numberOfHome = prefs.getString('numberOfHome') ?? '';
+    String address = prefs.getString('address') ?? '';
+
+    String address1 = 'First Name: $firstName\n' +
+        'Last Name: $lastName\n' +
+        'City Name: $username\n' +
+        'District: $district\n' +
+        'Neighbourhood: $neighbourhood\n' +
+        'Street: $street\n' +
+        'Pos Code: $posCode\n' +
+        'Number Of Home: $numberOfHome\n' +
+        'Full Address: $address';
+
     setState(() {
-      addresses = prefs.getStringList('addresses') ?? [];
+      addresses = [address1];
     });
   }
 
@@ -51,21 +78,25 @@ class _AddressSettingsState extends State<AddressSettings> {
   Future<void> editAddress(int index) async {
     String address = addresses[index];
     List<String> addressParts = address.split('\n');
-    String firstNameLastName =
-        addressParts[0].substring('First Name/Last Name: '.length);
-    String cityLocality = addressParts[1].substring('City/Locality: '.length);
-    String stateProvince = addressParts[2].substring('State/Province: '.length);
-    String postalCode = addressParts[3].substring('Postal Code: '.length);
-    String country = addressParts[4].substring('Country: '.length);
-    String telephoneNumber =
-        addressParts[5].substring('Telephone number: '.length);
+    String firstName = addressParts[0].substring('First Name: '.length);
+    String lastName = addressParts[1].substring('Last Name: '.length);
+    String cityName = addressParts[2].substring('City Name: '.length);
+    String district = addressParts[3].substring('District: '.length);
+    String neighbourhood = addressParts[4].substring('Neighbourhood: '.length);
+    String street = addressParts[5].substring('Street: '.length);
+    String posCode = addressParts[6].substring('Pos Code: '.length);
+    String numberOfHome = addressParts[7].substring('Number Of Home: '.length);
+    String fullAddress = addressParts[8].substring('Full Address: '.length);
 
-    firstNameController.text = firstNameLastName;
-    cityController.text = cityLocality;
-    stateController.text = stateProvince;
-    postalCodeController.text = postalCode;
-    countryController.text = country;
-    telephoneController.text = telephoneNumber;
+    firstNameController.text = firstName;
+    lastNameController.text = lastName;
+    cityNameController.text = cityName;
+    districtController.text = district;
+    neighbourhoodController.text = neighbourhood;
+    streetController.text = street;
+    posCodeController.text = posCode;
+    numberOfHomeController.text = numberOfHome;
+    addressController.text = fullAddress;
 
     await showDialog(
       context: context,
@@ -78,37 +109,55 @@ class _AddressSettingsState extends State<AddressSettings> {
                 TextField(
                   controller: firstNameController,
                   decoration: const InputDecoration(
-                    labelText: 'First Name/Last Name',
+                    labelText: 'First Name',
                   ),
                 ),
                 TextField(
-                  controller: cityController,
+                  controller: lastNameController,
                   decoration: const InputDecoration(
-                    labelText: 'City/Locality',
+                    labelText: 'Last Name',
                   ),
                 ),
                 TextField(
-                  controller: stateController,
+                  controller: cityNameController,
                   decoration: const InputDecoration(
-                    labelText: 'State/Province',
+                    labelText: 'City Name',
                   ),
                 ),
                 TextField(
-                  controller: postalCodeController,
+                  controller: districtController,
                   decoration: const InputDecoration(
-                    labelText: 'Postal Code',
+                    labelText: 'District',
                   ),
                 ),
                 TextField(
-                  controller: countryController,
+                  controller: neighbourhoodController,
                   decoration: const InputDecoration(
-                    labelText: 'Country',
+                    labelText: 'Neighbourhood',
                   ),
                 ),
                 TextField(
-                  controller: telephoneController,
+                  controller: streetController,
                   decoration: const InputDecoration(
-                    labelText: 'Telephone number',
+                    labelText: 'Street',
+                  ),
+                ),
+                TextField(
+                  controller: posCodeController,
+                  decoration: const InputDecoration(
+                    labelText: 'Pos Code',
+                  ),
+                ),
+                TextField(
+                  controller: numberOfHomeController,
+                  decoration: const InputDecoration(
+                    labelText: 'Number Of Home',
+                  ),
+                ),
+                TextField(
+                  controller: addressController,
+                  decoration: const InputDecoration(
+                    labelText: 'Full Address',
                   ),
                 ),
               ],
@@ -116,23 +165,29 @@ class _AddressSettingsState extends State<AddressSettings> {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  String editedAddress = 'First Name/Last Name: ' +
+                  String editedAddress = 'First Name: ' +
                       firstNameController.text +
                       '\n' +
-                      'City/Locality: ' +
-                      cityController.text +
+                      'Last Name: ' +
+                      lastNameController.text +
                       '\n' +
-                      'State/Province: ' +
-                      stateController.text +
+                      'City Name: ' +
+                      cityNameController.text +
                       '\n' +
-                      'Postal Code: ' +
-                      postalCodeController.text +
+                      'District: ' +
+                      districtController.text +
                       '\n' +
-                      'Country: ' +
-                      countryController.text +
+                      'Neighbourhood: ' +
+                      neighbourhoodController.text +
+                      'Street: ' +
+                      streetController.text +
+                      'Pos Code: ' +
+                      posCodeController.text +
+                      'Number Of Home: ' +
+                      numberOfHomeController.text +
                       '\n' +
-                      'Telephone number: ' +
-                      telephoneController.text;
+                      'Full Address: ' +
+                      addressController.text;
 
                   setState(() {
                     addresses[index] = editedAddress;
@@ -235,37 +290,55 @@ class _AddressSettingsState extends State<AddressSettings> {
                                           TextField(
                                             controller: firstNameController,
                                             decoration: const InputDecoration(
-                                              labelText: 'First Name/Last Name',
+                                              labelText: 'First Name',
                                             ),
                                           ),
                                           TextField(
-                                            controller: cityController,
+                                            controller: lastNameController,
                                             decoration: const InputDecoration(
-                                              labelText: 'City/Locality',
+                                              labelText: 'Last Name',
                                             ),
                                           ),
                                           TextField(
-                                            controller: stateController,
+                                            controller: cityNameController,
                                             decoration: const InputDecoration(
-                                              labelText: 'State/Province',
+                                              labelText: 'City Name',
                                             ),
                                           ),
                                           TextField(
-                                            controller: postalCodeController,
+                                            controller: districtController,
                                             decoration: const InputDecoration(
-                                              labelText: 'Postal Code',
+                                              labelText: 'District',
                                             ),
                                           ),
                                           TextField(
-                                            controller: countryController,
+                                            controller: neighbourhoodController,
                                             decoration: const InputDecoration(
-                                              labelText: 'Country',
+                                              labelText: 'Neighbourhood',
                                             ),
                                           ),
                                           TextField(
-                                            controller: telephoneController,
+                                            controller: streetController,
                                             decoration: const InputDecoration(
-                                              labelText: 'Telephone number',
+                                              labelText: 'Street',
+                                            ),
+                                          ),
+                                          TextField(
+                                            controller: posCodeController,
+                                            decoration: const InputDecoration(
+                                              labelText: 'Pos Code',
+                                            ),
+                                          ),
+                                          TextField(
+                                            controller: numberOfHomeController,
+                                            decoration: const InputDecoration(
+                                              labelText: 'Number Of Home',
+                                            ),
+                                          ),
+                                          TextField(
+                                            controller: addressController,
+                                            decoration: const InputDecoration(
+                                              labelText: 'Full Address',
                                             ),
                                           ),
                                         ],
@@ -273,24 +346,29 @@ class _AddressSettingsState extends State<AddressSettings> {
                                       actions: <Widget>[
                                         TextButton(
                                           onPressed: () {
-                                            String address =
-                                                'First Name/Last Name: ' +
-                                                    firstNameController.text +
-                                                    '\n' +
-                                                    'City/Locality: ' +
-                                                    cityController.text +
-                                                    '\n' +
-                                                    'State/Province: ' +
-                                                    stateController.text +
-                                                    '\n' +
-                                                    'Postal Code: ' +
-                                                    postalCodeController.text +
-                                                    '\n' +
-                                                    'Country: ' +
-                                                    countryController.text +
-                                                    '\n' +
-                                                    'Telephone number: ' +
-                                                    telephoneController.text;
+                                            String address = 'First Name: ' +
+                                                firstNameController.text +
+                                                '\n' +
+                                                'Last Name: ' +
+                                                lastNameController.text +
+                                                '\n' +
+                                                'City Name: ' +
+                                                cityNameController.text +
+                                                '\n' +
+                                                'District: ' +
+                                                districtController.text +
+                                                '\n' +
+                                                'Neighbourhood: ' +
+                                                neighbourhoodController.text +
+                                                'Street: ' +
+                                                streetController.text +
+                                                'Pos Code: ' +
+                                                posCodeController.text +
+                                                'Number Of Home: ' +
+                                                numberOfHomeController.text +
+                                                '\n' +
+                                                'Full Address: ' +
+                                                addressController.text;
                                             setState(() {
                                               addresses.add(address);
                                             });

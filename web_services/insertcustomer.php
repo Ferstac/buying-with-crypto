@@ -2,17 +2,15 @@
 
 include("connection.php");
 
-    if($_GET) {
-        $firstName = $_GET["firstName"];
-        $firstName = $_GET["lastName"];
-        $username = $_GET["username"];
-        $password = $_GET["password"];
-        $mail = $_GET["mail"];
-        $addressId = $_GET["addressId"];
-        $orderId = $_GET["orderId"];
+    if($_POST) {
+        $firstName = $_POST["firstName"];
+        $lastName = $_POST["lastName"];
+        $username = $_POST["username"];
+        $password = $_POST["password"];
+        $mail = $_POST["mail"];
     }
 
-    $insertCustomerQuery = "INSERT INTO `customers` (`firstName`, `lastName`, `username`, `password`, `mail`, `addressId`, `orderId`) VALUES ('$firstName', '$lastName', '$username', '$pasword', '$mail', '$addressId', '$orderId')";
+    $insertCustomerQuery = "INSERT INTO `customers` (`firstName`, `lastName`, `username`, `password`, `mail`) VALUES ('$firstName', '$lastName', '$username', '$password', '$mail')";
     $result = mysqli_query($connection, $insertCustomerQuery);
 
     if($result) {
