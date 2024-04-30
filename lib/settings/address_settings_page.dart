@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../called/data_factory.dart';
+import '../signup_login/post_json.dart';
+
 class AddressSettings extends StatefulWidget {
   const AddressSettings({Key? key}) : super(key: key);
 
@@ -25,7 +28,10 @@ class _AddressSettingsState extends State<AddressSettings> {
   @override
   void initState() {
     super.initState();
-    loadAddresses();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await loadAddresses();
+      setState(() {});
+    });
   }
 
   @override
@@ -45,34 +51,22 @@ class _AddressSettingsState extends State<AddressSettings> {
   Future<void> loadAddresses() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String firstName = prefs.getString('firstName') ?? '';
-    String lastName = prefs.getString('lastName') ?? '';
-    String username = prefs.getString('username') ?? '';
-    String district = prefs.getString('district') ?? '';
-    String neighbourhood = prefs.getString('neighbourhood') ?? '';
-    String street = prefs.getString('street') ?? '';
-    String posCode = prefs.getString('posCode') ?? '';
-    String numberOfHome = prefs.getString('numberOfHome') ?? '';
-    String address = prefs.getString('address') ?? '';
-
-    String address1 = 'First Name: $firstName\n' +
-        'Last Name: $lastName\n' +
-        'City Name: $username\n' +
-        'District: $district\n' +
-        'Neighbourhood: $neighbourhood\n' +
-        'Street: $street\n' +
-        'Pos Code: $posCode\n' +
-        'Number Of Home: $numberOfHome\n' +
-        'Full Address: $address';
-
-    setState(() {
-      addresses = [address1];
-    });
+    List<String> addressesLoad = prefs.getStringList('addresses') ?? [];
+    addresses.addAll(addressesLoad);
   }
 
   Future<void> saveAddresses() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('addresses', addresses);
+    prefs.setString('firstName', firstNameController.text);
+    prefs.setString('lastName', lastNameController.text);
+    prefs.setString('cityName', cityNameController.text);
+    prefs.setString('district', districtController.text);
+    prefs.setString('neighbourhood', neighbourhoodController.text);
+    prefs.setString('street', streetController.text);
+    prefs.setString('posCode', posCodeController.text);
+    prefs.setString('numberOfHome', numberOfHomeController.text);
+    prefs.setString('address', addressController.text);
   }
 
   Future<void> editAddress(int index) async {
@@ -345,7 +339,7 @@ class _AddressSettingsState extends State<AddressSettings> {
                                       ),
                                       actions: <Widget>[
                                         TextButton(
-                                          onPressed: () {
+                                          onPressed: () async {
                                             String address = 'First Name: ' +
                                                 firstNameController.text +
                                                 '\n' +
@@ -374,6 +368,19 @@ class _AddressSettingsState extends State<AddressSettings> {
                                             });
                                             saveAddresses();
                                             Navigator.of(context).pop();
+                                            SharedPreferences prefs =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            String mail =
+                                                prefs.getString('userMail') ??
+                                                    '';
+                                            String password = prefs.getString(
+                                                    'userPassword') ??
+                                                '';
+                                            await getCustomersID(
+                                              password,
+                                              mail,
+                                            );
                                           },
                                           child: const Text('Add'),
                                         ),

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../cryptocurrency/cc_data.dart';
 import '../requests/crypto_api.dart';
+import 'products_data.dart';
 
 class CurrencyProvider extends ChangeNotifier {
   String selectedCurrency = 'USD';
@@ -16,8 +17,7 @@ class CurrencyProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updatePrice(double newBTCPrice, double newETHPrice ,
-      double newBNBPrice) {
+  void updatePrice(double newBTCPrice, double newETHPrice, double newBNBPrice) {
     BTCPrice = newBTCPrice; // Price değişkenini güncelleyin
     ETHPrice = newETHPrice;
     USDTPrice = 1.0;
@@ -60,74 +60,6 @@ class GridProducts extends StatefulWidget {
 
 class _GridProductsState extends State<GridProducts>
     with SingleTickerProviderStateMixin {
-  final List<Map<String, dynamic>> gridMap = [
-    {
-      "title": "white sneaker with adidas logo",
-      "price": "\$255",
-      "images":
-          "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=725&q=80",
-      "description": "Description of white sneaker with adidas logo",
-    },
-    {
-      "title": "Black Jeans with blue stripes",
-      "price": "\$245",
-      "images":
-          "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-      "description": "Description of Black Jeans with blue stripes",
-    },
-    {
-      "title": "Red shoes with black stripes",
-      "price": "\$155",
-      "images":
-          "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-    },
-    {
-      "title": "Gamma shoes with beta brand.",
-      "price": "\$275",
-      "images":
-          "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-    },
-    {
-      "title": "Alpha t-shirt for alpha testers.",
-      "price": "\$25",
-      "images":
-          "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-    },
-    {
-      "title": "Beta jeans for beta testers",
-      "price": "\$27",
-      "images":
-          "https://images.unsplash.com/photo-1602293589930-45aad59ba3ab?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-    },
-    {
-      "title": "V&V  model white t shirts.",
-      "price": "\$55",
-      "images":
-          "https://images.unsplash.com/photo-1554568218-0f1715e72254?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-    },
-    {
-      "title": "Black Jeans with blue stripes",
-      "price": "\$245",
-      "images":
-          "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-      "description": "Description of Black Jeans with blue stripes",
-    },
-    {
-      "title": "Black Jeans with blue stripes",
-      "price": "\$245",
-      "images":
-          "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-      "description": "Description of Black Jeans with blue stripes",
-    },
-    {
-      "title": "Black Jeans with blue stripes",
-      "price": "\$245",
-      "images":
-          "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-      "description": "Description of Black Jeans with blue stripes",
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -141,7 +73,7 @@ class _GridProductsState extends State<GridProducts>
             mainAxisSpacing: 12.0,
             mainAxisExtent: 310,
           ),
-          itemCount: gridMap.length,
+          itemCount: productDetails.length,
           itemBuilder: (_, index) {
             return GestureDetector(
               onTap: () {
@@ -156,7 +88,7 @@ class _GridProductsState extends State<GridProducts>
                             ClipRRect(
                               borderRadius: BorderRadius.circular(16.0),
                               child: Image.network(
-                                "${gridMap.elementAt(index)['images']}",
+                                "${productDetails.elementAt(index)['images']}",
                                 height: 200,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
@@ -168,7 +100,7 @@ class _GridProductsState extends State<GridProducts>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "${gridMap.elementAt(index)['title']}",
+                                    "${productDetails.elementAt(index)['title']}",
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleLarge!
@@ -180,7 +112,7 @@ class _GridProductsState extends State<GridProducts>
                                   Row(
                                     children: [
                                       Text(
-                                        "${calculateConvertedPrice(double.parse(gridMap.elementAt(index)['price'].substring(1)), Provider.of<CurrencyProvider>(context).selectedCurrency)} ${Provider.of<CurrencyProvider>(context).selectedCurrency}",
+                                        "${calculateConvertedPrice(double.parse(productDetails.elementAt(index)['price'].substring(1)), Provider.of<CurrencyProvider>(context).selectedCurrency)} ${Provider.of<CurrencyProvider>(context).selectedCurrency}",
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleMedium!
@@ -193,7 +125,7 @@ class _GridProductsState extends State<GridProducts>
                                         value: Provider.of<CurrencyProvider>(
                                                 context)
                                             .selectedCurrency,
-                                        items: ["USD","BTC", "ETH", "BNB"]
+                                        items: ["USD", "BTC", "ETH", "BNB"]
                                             .map((String value) {
                                           return DropdownMenuItem<String>(
                                             value: value,
@@ -207,7 +139,7 @@ class _GridProductsState extends State<GridProducts>
                                   ),
                                   const SizedBox(height: 8.0),
                                   Text(
-                                    "${gridMap.elementAt(index)['description']}",
+                                    "${productDetails.elementAt(index)['description']}",
                                   ),
                                 ],
                               ),
@@ -216,7 +148,30 @@ class _GridProductsState extends State<GridProducts>
                             Center(
                               child: ElevatedButton(
                                 onPressed: () {
-                                  // Ekleme işlemini burada gerçekleştirin
+                                  // Ürünü sepete eklemek için ürün bilgilerini bir harita olarak oluşturun
+                                  Map<String, dynamic> item = {
+                                    'title': productDetails
+                                        .elementAt(index)['title'],
+                                    'price': calculateConvertedPrice(
+                                            double.parse(productDetails
+                                                .elementAt(index)['price']
+                                                .substring(1)),
+                                            Provider.of<CurrencyProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .selectedCurrency)
+                                        .toStringAsFixed(2),
+                                    'images': productDetails
+                                        .elementAt(index)['images'],
+                                    'description': productDetails
+                                        .elementAt(index)['description'],
+                                    'currency': Provider.of<CurrencyProvider>(
+                                            context,
+                                            listen: false)
+                                        .selectedCurrency,
+                                  };
+                                  // Sepete eklenen ürünleri tutan listeye ekleyin
+                                  cartItems.add(item);
                                 },
                                 child: const Text("Sepete Ekle"),
                               ),
@@ -242,7 +197,7 @@ class _GridProductsState extends State<GridProducts>
                         topRight: Radius.circular(16.0),
                       ),
                       child: Image.network(
-                        "${gridMap.elementAt(index)['images']}",
+                        "${productDetails.elementAt(index)['images']}",
                         height: 170,
                         width: double.infinity,
                         fit: BoxFit.cover,
@@ -254,7 +209,7 @@ class _GridProductsState extends State<GridProducts>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${gridMap.elementAt(index)['title']}",
+                            "${productDetails.elementAt(index)['title']}",
                             style:
                                 Theme.of(context).textTheme.titleMedium!.merge(
                                       const TextStyle(
@@ -266,7 +221,7 @@ class _GridProductsState extends State<GridProducts>
                             height: 8.0,
                           ),
                           Text(
-                            "${calculateConvertedPrice(double.parse(gridMap.elementAt(index)['price'].substring(1)), Provider.of<CurrencyProvider>(context).selectedCurrency).toStringAsFixed(2)} ${Provider.of<CurrencyProvider>(context).selectedCurrency}",
+                            "${calculateConvertedPrice(double.parse(productDetails.elementAt(index)['price'].substring(1)), Provider.of<CurrencyProvider>(context).selectedCurrency).toStringAsFixed(2)} ${Provider.of<CurrencyProvider>(context).selectedCurrency}",
                             style:
                                 Theme.of(context).textTheme.titleSmall!.merge(
                                       TextStyle(
@@ -284,7 +239,32 @@ class _GridProductsState extends State<GridProducts>
                                 ),
                               ),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  // Ürünü sepete eklemek için ürün bilgilerini bir harita olarak oluşturun
+                                  Map<String, dynamic> item = {
+                                    'title': productDetails
+                                        .elementAt(index)['title'],
+                                    'price': calculateConvertedPrice(
+                                            double.parse(productDetails
+                                                .elementAt(index)['price']
+                                                .substring(1)),
+                                            Provider.of<CurrencyProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .selectedCurrency)
+                                        .toStringAsFixed(2),
+                                    'images': productDetails
+                                        .elementAt(index)['images'],
+                                    'description': productDetails
+                                        .elementAt(index)['description'],
+                                    'currency': Provider.of<CurrencyProvider>(
+                                            context,
+                                            listen: false)
+                                        .selectedCurrency,
+                                  };
+                                  // Sepete eklenen ürünleri tutan listeye ekleyin
+                                  cartItems.add(item);
+                                },
                                 icon: const Icon(
                                   CupertinoIcons.cart,
                                 ),
@@ -292,7 +272,7 @@ class _GridProductsState extends State<GridProducts>
                               DropdownButton<String>(
                                 value: Provider.of<CurrencyProvider>(context)
                                     .selectedCurrency,
-                                items: ["USD","BTC", "ETH", "BNB"]
+                                items: ["USD", "BTC", "ETH", "BNB"]
                                     .map((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,

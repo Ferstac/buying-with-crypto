@@ -33,6 +33,7 @@ if(mysqli_num_rows($result) > 0) {
 
         $product["addressId"] = $row["addressId"];
         $product["customerId"] = $row["customerId"];
+        $product["cityName"] = $row["cityName"];
         $product["district"] = $row["district"];
         $product["neighbourhood"] = $row["neighbourhood"];
         $product["street"] = $row["street"];

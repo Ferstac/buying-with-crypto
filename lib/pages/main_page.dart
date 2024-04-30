@@ -7,6 +7,9 @@ import 'package:provider/provider.dart';
 import '../called/grid_products.dart';
 import '../called/pop_up_menu.dart';
 import '../called/menu_drawer.dart';
+import '../called/products_data.dart';
+import '../cryptocurrency/cc_data.dart';
+import '../requests/crypto_api.dart';
 import 'cart_page.dart';
 import 'favorites_page.dart';
 import 'live_support_page.dart';
@@ -20,13 +23,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  List<String> imgs = [
-    "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=725&q=80",
-    "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-    "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-    "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-  ];
   late final PageController pageController;
   final ScrollController _scrollController = ScrollController();
   int pageNo = 0;
@@ -218,14 +214,108 @@ class _MainPageState extends State<MainPage> {
                                 return child!;
                               },
                               child: GestureDetector(
-                                onTap: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => Image.network(
-                                      imgs[pageIndex],
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Dialog(
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(16.0),
+                                                child: Image.network(
+                                                  "${productDetails.elementAt(pageIndex)['images']}",
+                                                  height: 200,
+                                                  width: double.infinity,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "${productDetails.elementAt(pageIndex)['title']}",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .titleLarge!
+                                                          .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                    ),
+                                                    const SizedBox(height: 8.0),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          "${calculateConvertedPrice(double.parse(productDetails.elementAt(pageIndex)['price'].substring(1)), Provider.of<CurrencyProvider>(context).selectedCurrency)} ${Provider.of<CurrencyProvider>(context).selectedCurrency}",
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .titleMedium!
+                                                                  .copyWith(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 8.0),
+                                                        DropdownButton<String>(
+                                                          value: Provider.of<
+                                                                      CurrencyProvider>(
+                                                                  context)
+                                                              .selectedCurrency,
+                                                          items: [
+                                                            "USD",
+                                                            "BTC",
+                                                            "ETH",
+                                                            "BNB"
+                                                          ].map((String value) {
+                                                            return DropdownMenuItem<
+                                                                String>(
+                                                              value: value,
+                                                              child:
+                                                                  Text(value),
+                                                            );
+                                                          }).toList(),
+                                                          onChanged: (String?
+                                                                  newValue) =>
+                                                              _loadCC(newValue),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(height: 8.0),
+                                                    Text(
+                                                      "${productDetails.elementAt(pageIndex)['description']}",
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(height: 16.0),
+                                              Center(
+                                                child: ElevatedButton(
+                                                  onPressed: () {
+                                                    // Ekleme işlemini burada gerçekleştirin
+                                                  },
+                                                  child:
+                                                      const Text("Sepete Ekle"),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
                                 // {
                                 //   ScaffoldMessenger.of(context).showSnackBar(
                                 //     SnackBar(
@@ -249,7 +339,7 @@ class _MainPageState extends State<MainPage> {
                                     bottom: 12,
                                   ),
                                   child: Image.network(
-                                    imgs[pageIndex],
+                                    "${productDetails.elementAt(pageIndex)['images']}",
                                     fit: BoxFit.fill,
                                   ),
                                   decoration: BoxDecoration(
@@ -373,5 +463,23 @@ class _MainPageState extends State<MainPage> {
         height: showBottomAppBar ? 70 : 0,
       ),
     );
+  }
+
+  final CryptoApiService _cryptoApiService = CryptoApiService(
+      '100&CMC_PRO_API_KEY=3b3beb6a-eabc-4a52-b0c3-db55ebad0f55');
+  _loadCC(newValue) async {
+    Provider.of<CurrencyProvider>(context, listen: false)
+        .updateCurrency(newValue!);
+    try {
+      List<CCData> ccDataList =
+          await _cryptoApiService.fetchCryptocurrencyData();
+      setState(() {
+        Provider.of<CurrencyProvider>(context, listen: false).updatePrice(
+            ccDataList[0].price, ccDataList[1].price, ccDataList[3].price);
+      });
+    } catch (e) {
+      // Handle errors
+      print('Error: $e');
+    }
   }
 }

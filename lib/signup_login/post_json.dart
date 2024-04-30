@@ -97,6 +97,91 @@ Future<List<Customer>> getCustomers(String password, String mail) async {
   }
 }
 
+Future<List<Customer>> getCustomersID(String password, String mail) async {
+  final response = await http.post(
+    Uri.parse('https://ilhamsadikhov.com/buyingwithcrypto/getcustomers_v2.php'),
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+    },
+    body: {
+      'password': password,
+      'mail': mail,
+    },
+  );
+
+  print(response.body);
+
+  if (response.statusCode == 200) {
+    List<Customer> customers = [];
+    var jsonData = json.decode(response.body);
+
+    for (var customerData in jsonData['customers']) {
+      customers.add(Customer.fromJson(customerData));
+
+      String customerIdStr = customerData['customerId'];
+      int customerId =
+          int.tryParse(customerIdStr) ?? 0; // String'i int'e dönüştür
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      String cityName = prefs.getString('cityName') ?? '';
+      String district = prefs.getString('district') ?? '';
+      String neighbourhood = prefs.getString('neighbourhood') ?? '';
+      String street = prefs.getString('street') ?? '';
+      String posCode = prefs.getString('posCode') ?? '';
+      String numberOfHome = prefs.getString('numberOfHome') ?? '';
+      String address = prefs.getString('address') ?? '';
+      await addNewAddress(customerId, cityName, district, neighbourhood, street,
+          posCode, numberOfHome, address);
+    }
+
+    return customers;
+  } else {
+    throw Exception('Failed to load customers');
+  }
+}
+
+Future<void> addNewAddress(
+    int customerId,
+    String cityName,
+    String district,
+    String neighbourhood,
+    String street,
+    String posCode,
+    String numberOfHome,
+    String address) async {
+  final response = await http.post(
+    Uri.parse('https://ilhamsadikhov.com/buyingwithcrypto/addnewaddress.php'),
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+    },
+    body: {
+      'customerId': customerId.toString(),
+      'cityName': cityName,
+      'district': district,
+      'neighbourhood': neighbourhood,
+      'street': street,
+      'posCode': posCode,
+      'numberOfHome': numberOfHome,
+      'address': address,
+    },
+  );
+
+  if (response.body != "error") {
+    print("Yeni adres başariyla eklendi");
+  } else {
+    throw Exception("Adres eklenirken bir hata oluştu");
+  }
+}
+
 Future<void> fetchCustomerData(int customerId) async {
   final response = await http.post(
     Uri.parse(
@@ -105,7 +190,7 @@ Future<void> fetchCustomerData(int customerId) async {
       'customerId': customerId.toString(),
     },
   );
-
+  List<String> addresses = [];
   // print(response.body);
 
   if (response.statusCode == 200) {
@@ -115,13 +200,13 @@ Future<void> fetchCustomerData(int customerId) async {
 
     List<Map<String, dynamic>> customers =
         (jsonData['customers'] as List).cast<Map<String, dynamic>>();
-    List<Map<String, dynamic>> addresses =
+    List<Map<String, dynamic>> address =
         (jsonData['address'] as List).cast<Map<String, dynamic>>();
 
     // print(customers);
     // print(addresses);
 
-    if (customers.isNotEmpty && addresses.isNotEmpty) {
+    if (customers.isNotEmpty && address.isNotEmpty) {
       // Save customer data to SharedPreferences
       prefs.setString('customerId', customers[0]['customerId'].toString());
       prefs.setString('firstName', customers[0]['firstName']);
@@ -133,14 +218,29 @@ Future<void> fetchCustomerData(int customerId) async {
       prefs.setString('orderId', customers[0]['orderId'].toString());
 
       // Save address data to SharedPreferences
-      prefs.setString('addressId', addresses[0]['addressId'].toString());
-      prefs.setString('customerId', addresses[0]['customerId'].toString());
-      prefs.setString('district', addresses[0]['district']);
-      prefs.setString('neighbourhood', addresses[0]['neighbourhood']);
-      prefs.setString('street', addresses[0]['street']);
-      prefs.setString('posCode', addresses[0]['posCode']);
-      prefs.setString('numberOfHome', addresses[0]['numberOfHome']);
-      prefs.setString('address', addresses[0]['address']);
+      for (int i = 0; i < address.length; i++) {
+        String address1 = 'First Name: ${customers[i]["firstName"]}\n' +
+            'Last Name: ${customers[i]["lastName"]}\n' +
+            'City Name: ${address[i]["cityName"]}\n' +
+            'District: ${address[i]["district"]}\n' +
+            'Neighbourhood: ${address[i]["neighbourhood"]}\n' +
+            'Street: ${address[i]["street"]}\n' +
+            'Pos Code: ${address[i]["posCode"]}\n' +
+            'Number Of Home: ${address[i]["numberOfHome"]}\n' +
+            'Full Address: ${address[i]["address"]}\n';
+
+        addresses.add(address1);
+        await prefs.setStringList('addresses', addresses);
+      }
+      prefs.setString('addressId', address[0]['addressId'].toString());
+      prefs.setString('customerId', address[0]['customerId'].toString());
+      prefs.setString('cityName', address[0]['cityName']);
+      prefs.setString('district', address[0]['district']);
+      prefs.setString('neighbourhood', address[0]['neighbourhood']);
+      prefs.setString('street', address[0]['street']);
+      prefs.setString('posCode', address[0]['posCode']);
+      prefs.setString('numberOfHome', address[0]['numberOfHome']);
+      prefs.setString('address', address[0]['address']);
     }
   } else {
     throw Exception('Failed to load customer data');
