@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -145,6 +146,52 @@ Future<List<Customer>> getCustomersID(String password, String mail) async {
   }
 }
 
+Future<void> getAddressID(
+    String cityName,
+    String district,
+    String neighbourhood,
+    String street,
+    String posCode,
+    String numberOfHome,
+    String address) async {
+  final response = await http.post(
+    Uri.parse(
+        'https://ilhamsadikhov.com/buyingwithcrypto/getAddressIdFromIndex.php'),
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+    },
+    body: {
+      'cityName': cityName,
+      'district': district,
+      'neighbourhood': neighbourhood,
+      'street': street,
+      'posCode': posCode,
+      'numberOfHome': numberOfHome,
+      'address': address,
+    },
+  );
+
+  print(response.body);
+
+  if (response.statusCode == 200) {
+    var jsonData = json.decode(response.body);
+
+    for (var addressData in jsonData['address']) {
+      String addressIdStr = addressData['addressId'];
+      int addressId =
+          int.tryParse(addressIdStr) ?? 0; // String'i int'e dönüştür
+
+      await deleteAddressFromDatabase(addressId);
+    }
+  } else {
+    throw Exception('Failed to load address');
+  }
+}
+
 Future<void> addNewAddress(
     int customerId,
     String cityName,
@@ -179,6 +226,20 @@ Future<void> addNewAddress(
     print("Yeni adres başariyla eklendi");
   } else {
     throw Exception("Adres eklenirken bir hata oluştu");
+  }
+}
+
+Future<void> deleteAddressFromDatabase(int addressId) async {
+  var url = Uri.parse(
+      'https://ilhamsadikhov.com/buyingwithcrypto/deleteAddressFromDatabase.php');
+  var response = await http.post(url, body: {
+    'addressId': addressId.toString(),
+  });
+
+  if (response.statusCode == 200) {
+    print('Address deleted successfully');
+  } else {
+    print('Failed to delete address: ${response.body}');
   }
 }
 

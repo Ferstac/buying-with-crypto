@@ -15,15 +15,25 @@ class AddressSettings extends StatefulWidget {
 class _AddressSettingsState extends State<AddressSettings> {
   List<String> addresses = [];
 
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController cityNameController = TextEditingController();
-  TextEditingController districtController = TextEditingController();
-  TextEditingController neighbourhoodController = TextEditingController();
-  TextEditingController streetController = TextEditingController();
-  TextEditingController posCodeController = TextEditingController();
-  TextEditingController numberOfHomeController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
+  TextEditingController editfirstNameController = TextEditingController();
+  TextEditingController editlastNameController = TextEditingController();
+  TextEditingController editcityNameController = TextEditingController();
+  TextEditingController editdistrictController = TextEditingController();
+  TextEditingController editneighbourhoodController = TextEditingController();
+  TextEditingController editstreetController = TextEditingController();
+  TextEditingController editposCodeController = TextEditingController();
+  TextEditingController editnumberOfHomeController = TextEditingController();
+  TextEditingController editaddressController = TextEditingController();
+
+  TextEditingController newfirstNameController = TextEditingController();
+  TextEditingController newlastNameController = TextEditingController();
+  TextEditingController newcityNameController = TextEditingController();
+  TextEditingController newdistrictController = TextEditingController();
+  TextEditingController newneighbourhoodController = TextEditingController();
+  TextEditingController newstreetController = TextEditingController();
+  TextEditingController newposCodeController = TextEditingController();
+  TextEditingController newnumberOfHomeController = TextEditingController();
+  TextEditingController newaddressController = TextEditingController();
 
   @override
   void initState() {
@@ -36,16 +46,37 @@ class _AddressSettingsState extends State<AddressSettings> {
 
   @override
   void dispose() {
-    firstNameController.dispose();
-    lastNameController.dispose();
-    cityNameController.dispose();
-    districtController.dispose();
-    neighbourhoodController.dispose();
-    streetController.dispose();
-    posCodeController.dispose();
-    numberOfHomeController.dispose();
-    addressController.dispose();
+    editfirstNameController.dispose();
+    editlastNameController.dispose();
+    editcityNameController.dispose();
+    editdistrictController.dispose();
+    editneighbourhoodController.dispose();
+    editstreetController.dispose();
+    editposCodeController.dispose();
+    editnumberOfHomeController.dispose();
+    editaddressController.dispose();
+    newfirstNameController.dispose();
+    newlastNameController.dispose();
+    newcityNameController.dispose();
+    newdistrictController.dispose();
+    newneighbourhoodController.dispose();
+    newstreetController.dispose();
+    newposCodeController.dispose();
+    newnumberOfHomeController.dispose();
+    newaddressController.dispose();
     super.dispose();
+  }
+
+  void clearControllers() {
+    newfirstNameController.clear();
+    newlastNameController.clear();
+    newcityNameController.clear();
+    newdistrictController.clear();
+    newneighbourhoodController.clear();
+    newstreetController.clear();
+    newposCodeController.clear();
+    newnumberOfHomeController.clear();
+    newaddressController.clear();
   }
 
   Future<void> loadAddresses() async {
@@ -58,15 +89,15 @@ class _AddressSettingsState extends State<AddressSettings> {
   Future<void> saveAddresses() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('addresses', addresses);
-    prefs.setString('firstName', firstNameController.text);
-    prefs.setString('lastName', lastNameController.text);
-    prefs.setString('cityName', cityNameController.text);
-    prefs.setString('district', districtController.text);
-    prefs.setString('neighbourhood', neighbourhoodController.text);
-    prefs.setString('street', streetController.text);
-    prefs.setString('posCode', posCodeController.text);
-    prefs.setString('numberOfHome', numberOfHomeController.text);
-    prefs.setString('address', addressController.text);
+    prefs.setString('firstName', newfirstNameController.text);
+    prefs.setString('lastName', newlastNameController.text);
+    prefs.setString('cityName', newcityNameController.text);
+    prefs.setString('district', newdistrictController.text);
+    prefs.setString('neighbourhood', newneighbourhoodController.text);
+    prefs.setString('street', newstreetController.text);
+    prefs.setString('posCode', newposCodeController.text);
+    prefs.setString('numberOfHome', newnumberOfHomeController.text);
+    prefs.setString('address', newaddressController.text);
   }
 
   Future<void> editAddress(int index) async {
@@ -82,15 +113,15 @@ class _AddressSettingsState extends State<AddressSettings> {
     String numberOfHome = addressParts[7].substring('Number Of Home: '.length);
     String fullAddress = addressParts[8].substring('Full Address: '.length);
 
-    firstNameController.text = firstName;
-    lastNameController.text = lastName;
-    cityNameController.text = cityName;
-    districtController.text = district;
-    neighbourhoodController.text = neighbourhood;
-    streetController.text = street;
-    posCodeController.text = posCode;
-    numberOfHomeController.text = numberOfHome;
-    addressController.text = fullAddress;
+    editfirstNameController.text = firstName;
+    editlastNameController.text = lastName;
+    editcityNameController.text = cityName;
+    editdistrictController.text = district;
+    editneighbourhoodController.text = neighbourhood;
+    editstreetController.text = street;
+    editposCodeController.text = posCode;
+    editnumberOfHomeController.text = numberOfHome;
+    editaddressController.text = fullAddress;
 
     await showDialog(
       context: context,
@@ -101,55 +132,55 @@ class _AddressSettingsState extends State<AddressSettings> {
             content: Column(
               children: <Widget>[
                 TextField(
-                  controller: firstNameController,
+                  controller: editfirstNameController,
                   decoration: const InputDecoration(
                     labelText: 'First Name',
                   ),
                 ),
                 TextField(
-                  controller: lastNameController,
+                  controller: editlastNameController,
                   decoration: const InputDecoration(
                     labelText: 'Last Name',
                   ),
                 ),
                 TextField(
-                  controller: cityNameController,
+                  controller: editcityNameController,
                   decoration: const InputDecoration(
                     labelText: 'City Name',
                   ),
                 ),
                 TextField(
-                  controller: districtController,
+                  controller: editdistrictController,
                   decoration: const InputDecoration(
                     labelText: 'District',
                   ),
                 ),
                 TextField(
-                  controller: neighbourhoodController,
+                  controller: editneighbourhoodController,
                   decoration: const InputDecoration(
                     labelText: 'Neighbourhood',
                   ),
                 ),
                 TextField(
-                  controller: streetController,
+                  controller: editstreetController,
                   decoration: const InputDecoration(
                     labelText: 'Street',
                   ),
                 ),
                 TextField(
-                  controller: posCodeController,
+                  controller: editposCodeController,
                   decoration: const InputDecoration(
                     labelText: 'Pos Code',
                   ),
                 ),
                 TextField(
-                  controller: numberOfHomeController,
+                  controller: editnumberOfHomeController,
                   decoration: const InputDecoration(
                     labelText: 'Number Of Home',
                   ),
                 ),
                 TextField(
-                  controller: addressController,
+                  controller: editaddressController,
                   decoration: const InputDecoration(
                     labelText: 'Full Address',
                   ),
@@ -160,28 +191,31 @@ class _AddressSettingsState extends State<AddressSettings> {
               TextButton(
                 onPressed: () {
                   String editedAddress = 'First Name: ' +
-                      firstNameController.text +
+                      editfirstNameController.text +
                       '\n' +
                       'Last Name: ' +
-                      lastNameController.text +
+                      editlastNameController.text +
                       '\n' +
                       'City Name: ' +
-                      cityNameController.text +
+                      editcityNameController.text +
                       '\n' +
                       'District: ' +
-                      districtController.text +
+                      editdistrictController.text +
                       '\n' +
                       'Neighbourhood: ' +
-                      neighbourhoodController.text +
+                      editneighbourhoodController.text +
+                      '\n' +
                       'Street: ' +
-                      streetController.text +
+                      editstreetController.text +
+                      '\n' +
                       'Pos Code: ' +
-                      posCodeController.text +
+                      editposCodeController.text +
+                      '\n' +
                       'Number Of Home: ' +
-                      numberOfHomeController.text +
+                      editnumberOfHomeController.text +
                       '\n' +
                       'Full Address: ' +
-                      addressController.text;
+                      editaddressController.text;
 
                   setState(() {
                     addresses[index] = editedAddress;
@@ -206,6 +240,16 @@ class _AddressSettingsState extends State<AddressSettings> {
   }
 
   Future<void> deleteAddress(int index) async {
+    String address = addresses[index];
+    List<String> addressParts = address.split('\n');
+    String cityName = addressParts[2].substring('City Name: '.length);
+    String district = addressParts[3].substring('District: '.length);
+    String neighbourhood = addressParts[4].substring('Neighbourhood: '.length);
+    String street = addressParts[5].substring('Street: '.length);
+    String posCode = addressParts[6].substring('Pos Code: '.length);
+    String numberOfHome = addressParts[7].substring('Number Of Home: '.length);
+    String fullAddress = addressParts[8].substring('Full Address: '.length);
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -214,12 +258,15 @@ class _AddressSettingsState extends State<AddressSettings> {
           content: const Text('Are you sure you want to delete this address?'),
           actions: <Widget>[
             TextButton(
-              onPressed: () {
+              onPressed: () async {
+                await getAddressID(cityName, district, neighbourhood, street, posCode,
+                    numberOfHome, fullAddress);
+
+                // Listeden adresi kaldır
                 setState(() {
                   addresses.removeAt(index);
                 });
 
-                saveAddresses();
                 Navigator.of(context).pop();
               },
               child: const Text('Delete'),
@@ -273,6 +320,7 @@ class _AddressSettingsState extends State<AddressSettings> {
                         children: [
                           IconButton(
                             onPressed: () {
+                              clearControllers();
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -282,55 +330,57 @@ class _AddressSettingsState extends State<AddressSettings> {
                                       content: Column(
                                         children: <Widget>[
                                           TextField(
-                                            controller: firstNameController,
+                                            controller: newfirstNameController,
                                             decoration: const InputDecoration(
                                               labelText: 'First Name',
                                             ),
                                           ),
                                           TextField(
-                                            controller: lastNameController,
+                                            controller: newlastNameController,
                                             decoration: const InputDecoration(
                                               labelText: 'Last Name',
                                             ),
                                           ),
                                           TextField(
-                                            controller: cityNameController,
+                                            controller: newcityNameController,
                                             decoration: const InputDecoration(
                                               labelText: 'City Name',
                                             ),
                                           ),
                                           TextField(
-                                            controller: districtController,
+                                            controller: newdistrictController,
                                             decoration: const InputDecoration(
                                               labelText: 'District',
                                             ),
                                           ),
                                           TextField(
-                                            controller: neighbourhoodController,
+                                            controller:
+                                                newneighbourhoodController,
                                             decoration: const InputDecoration(
                                               labelText: 'Neighbourhood',
                                             ),
                                           ),
                                           TextField(
-                                            controller: streetController,
+                                            controller: newstreetController,
                                             decoration: const InputDecoration(
                                               labelText: 'Street',
                                             ),
                                           ),
                                           TextField(
-                                            controller: posCodeController,
+                                            controller: newposCodeController,
                                             decoration: const InputDecoration(
                                               labelText: 'Pos Code',
                                             ),
                                           ),
                                           TextField(
-                                            controller: numberOfHomeController,
+                                            controller:
+                                                newnumberOfHomeController,
                                             decoration: const InputDecoration(
                                               labelText: 'Number Of Home',
                                             ),
                                           ),
                                           TextField(
-                                            controller: addressController,
+                                            controller: newaddressController,
                                             decoration: const InputDecoration(
                                               labelText: 'Full Address',
                                             ),
@@ -341,28 +391,32 @@ class _AddressSettingsState extends State<AddressSettings> {
                                         TextButton(
                                           onPressed: () async {
                                             String address = 'First Name: ' +
-                                                firstNameController.text +
+                                                newfirstNameController.text +
                                                 '\n' +
                                                 'Last Name: ' +
-                                                lastNameController.text +
+                                                newlastNameController.text +
                                                 '\n' +
                                                 'City Name: ' +
-                                                cityNameController.text +
+                                                newcityNameController.text +
                                                 '\n' +
                                                 'District: ' +
-                                                districtController.text +
+                                                newdistrictController.text +
                                                 '\n' +
                                                 'Neighbourhood: ' +
-                                                neighbourhoodController.text +
+                                                newneighbourhoodController
+                                                    .text +
+                                                '\n' +
                                                 'Street: ' +
-                                                streetController.text +
+                                                newstreetController.text +
+                                                '\n' +
                                                 'Pos Code: ' +
-                                                posCodeController.text +
+                                                newposCodeController.text +
+                                                '\n' +
                                                 'Number Of Home: ' +
-                                                numberOfHomeController.text +
+                                                newnumberOfHomeController.text +
                                                 '\n' +
                                                 'Full Address: ' +
-                                                addressController.text;
+                                                newaddressController.text;
                                             setState(() {
                                               addresses.add(address);
                                             });
